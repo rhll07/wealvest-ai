@@ -1,0 +1,96 @@
+# =========================
+# Dependencies
+# =========================
+node_modules/
+
+# =========================
+# Build Output
+# =========================
+dist/
+build/
+coverage/
+*.tsbuildinfo
+
+# =========================
+# Environment Variables
+# =========================
+.env
+.env.*
+!.env.example
+
+# =========================
+# Logs
+# =========================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# =========================
+# Runtime
+# =========================
+*.pid
+*.seed
+*.pid.lock
+
+# =========================
+# OS Files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# VS Code
+# =========================
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+# =========================
+# JetBrains IDEs
+# =========================
+.idea/
+
+# =========================
+# Temporary Files
+# =========================
+*.tmp
+*.temp
+.cache/
+.tmp/
+
+# =========================
+# Test Output
+# =========================
+coverage/
+.nyc_output/
+
+# =========================
+# Local Databases
+# =========================
+*.db
+*.sqlite
+*.sqlite3
+
+# =========================
+# Generated Reports
+# =========================
+reports/
+exports/
+
+# =========================
+# Uploads
+# =========================
+uploads/
+
+# =========================
+# Misc
+# =========================
+*.tgz
+*.bak
+*.swp
+*.swo
