@@ -94,3 +94,8 @@ uploads/
 *.bak
 *.swp
 *.swo
+
+# Next.js
+src/widgets/.next/
+src/widgets/out/
+src/widgets/node_modules/
