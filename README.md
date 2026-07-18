@@ -3,13 +3,6 @@
 Minimal template for learning NitroStack fundamentals with a calculator-focused
 MCP server and basic widgets.
 
-## What This Template Includes
-
-- `calculator` module with tools, resources, and prompts
-- TypeScript + Zod validation setup
-- Widget-ready project structure
-- Production-friendly npm scripts
-
 ## Quick Start
 
 ```bash
@@ -26,24 +19,71 @@ npm run build
 npm start
 ```
 
-## NitroStudio
+# WealVest AI
 
-NitroStudio is the recommended way to test and debug this template during
-development.
+> MCP-Powered Wealth Intelligence Platform
 
-- Download: <https://nitrostack.ai/studio>
-- Studio: <https://nitrostack.ai/studio>
+WealVest AI is a prototype developed for the **NitroStack MCP Hackathon 2026** under the **BFSI & FinTech** track.
 
-## Links
+The project demonstrates how the **Model Context Protocol (MCP)** can orchestrate multiple financial tools through a unified AI interface.
 
-- Docs: <https://docs.nitrostack.ai>
-- Templates docs: <https://docs.nitrostack.ai/templates/01-starter-template>
-- Main repository: <https://github.com/nitrocloudofficial/nitrostack>
+---
 
-## Community
+## Features
 
-- Discord: <https://discord.gg/uVWey6UhuD>
-- X: <https://x.com/nitrostackai>
-- YouTube: <https://www.youtube.com/@nitrostackai>
-- LinkedIn: <https://linkedin.com/company/nitrostack-ai/>
-- GitHub: <https://github.com/nitrostackai>
+- Portfolio Analysis
+- Investment Simulator
+- Financial Calculator
+- Market Intelligence
+- Risk Assessment
+- AI Chat Interface
+- Report Generation
+- MCP Tool Orchestration
+
+---
+
+## Technology Stack
+
+### Frontend
+
+- React
+- TypeScript
+- Tailwind CSS
+
+### Backend
+
+- Node.js
+- Express
+
+### Database
+
+- MongoDB
+
+### AI
+
+- OpenAI-Compatible LLM
+
+### Protocol
+
+- NitroStack MCP SDK
+
+---
+
+## Documentation
+
+- SPEC.md
+- ARCHITECTURE.md
+- MCP_TOOLS.md
+- ROADMAP.md
+
+---
+
+## Project Status
+
+🚧 Under Development (Hackathon MVP)
+
+---
+
+## License
+
+MIT
