@@ -1,17 +1,17 @@
 import { McpApp, Module, ConfigModule } from '@nitrostack/core';
-import { CalculatorModule } from './modules/calculator/calculator.module.js';
+
+import { PortfolioModule } from './modules/portfolio/portfolio.module.js';
+import { RiskModule } from './modules/risk/risk.module.js';
+import { InvestmentSimulatorModule } from './modules/investment-simulator/investment-simulator.module.js';
+import { MarketIntelligenceModule } from './modules/market-intelligence/market-intelligence.module.js';
+import { ReportGeneratorModule } from './modules/report-generator/report-generator.module.js';
+
 import { SystemHealthCheck } from './health/system.health.js';
 
-/**
- * Root Application Module
- * 
- * This is the main module that bootstraps the MCP server.
- * It registers all feature modules and health checks.
- */
 @McpApp({
   module: AppModule,
   server: {
-    name: 'calculator-server',
+    name: 'wealvest-ai',
     version: '1.0.0'
   },
   logging: {
@@ -20,15 +20,17 @@ import { SystemHealthCheck } from './health/system.health.js';
 })
 @Module({
   name: 'app',
-  description: 'Root application module',
+  description: 'WealVest AI MCP Server',
   imports: [
     ConfigModule.forRoot(),
-    CalculatorModule
+    PortfolioModule,
+    RiskModule,
+    InvestmentSimulatorModule,
+    MarketIntelligenceModule,
+    ReportGeneratorModule
   ],
   providers: [
-    // Health Checks
     SystemHealthCheck,
   ]
 })
 export class AppModule {}
-

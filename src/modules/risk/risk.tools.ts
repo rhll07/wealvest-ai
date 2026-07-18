@@ -2,7 +2,7 @@ import { ToolDecorator as Tool, Widget, ExecutionContext, z } from '@nitrostack/
 import * as fs from 'fs';
 import * as path from 'path';
 
-export class CalculatorTools {
+export class RiskTools {
   @Tool({
     name: 'calculate',
     description: 'Perform basic arithmetic calculations',

@@ -1,12 +1,12 @@
 import { Module } from '@nitrostack/core';
-import { CalculatorTools } from './calculator.tools.js';
-import { CalculatorResources } from './calculator.resources.js';
-import { CalculatorPrompts } from './calculator.prompts.js';
+import { MarketIntelligenceTools } from './market-intelligence.tools.js';
+import { MarketIntelligenceResources } from './market-intelligence.resources.js';
+import { MarketIntelligencePrompts } from './market-intelligence.prompts.js';
 
 @Module({
-  name: 'calculator',
-  description: 'Basic arithmetic calculator',
-  controllers: [CalculatorTools, CalculatorResources, CalculatorPrompts]
+  name: 'market-intelligence',
+  description: 'Market Intelligence',
+  controllers: [MarketIntelligenceTools, MarketIntelligenceResources, MarketIntelligencePrompts]
 })
-export class CalculatorModule {}
+export class MarketIntelligenceModule {}
 

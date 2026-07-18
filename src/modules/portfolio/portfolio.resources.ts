@@ -1,59 +1,52 @@
-import { ResourceDecorator as Resource, Widget, ExecutionContext } from '@nitrostack/core';
+import { ResourceDecorator as Resource, ExecutionContext } from '@nitrostack/core';
 
-export class CalculatorResources {
+export class PortfolioResources {
   @Resource({
-    uri: 'calculator://operations',
-    name: 'Calculator Operations',
-    description: 'List of available calculator operations',
+    uri: 'portfolio://analysis',
+    name: 'Portfolio Analysis',
+    description: 'Portfolio analysis resources',
     mimeType: 'application/json',
     examples: {
       response: {
-        operations: [
-          { name: 'add', symbol: '+', description: 'Addition' },
-          { name: 'subtract', symbol: '-', description: 'Subtraction' },
-          { name: 'multiply', symbol: '×', description: 'Multiplication' },
-          { name: 'divide', symbol: '÷', description: 'Division' }
+        categories: [
+          'Portfolio Overview',
+          'Asset Allocation',
+          'Risk Analysis',
+          'Investment Recommendations'
         ]
       }
     }
   })
-  async getOperations(uri: string, ctx: ExecutionContext) {
-    ctx.logger.info('Fetching calculator operations');
+  async getPortfolioResources(uri: string, ctx: ExecutionContext) {
+    ctx.logger.info('Fetching portfolio resources');
 
-    const operations = [
+    const categories = [
       {
-        name: 'add',
-        symbol: '+',
-        description: 'Addition',
-        example: '5 + 3 = 8'
+        name: 'Portfolio Overview',
+        description: 'Summary of the investment portfolio'
       },
       {
-        name: 'subtract',
-        symbol: '-',
-        description: 'Subtraction',
-        example: '10 - 4 = 6'
+        name: 'Asset Allocation',
+        description: 'Recommended asset distribution'
       },
       {
-        name: 'multiply',
-        symbol: '×',
-        description: 'Multiplication',
-        example: '6 × 7 = 42'
+        name: 'Risk Analysis',
+        description: 'Portfolio risk assessment'
       },
       {
-        name: 'divide',
-        symbol: '÷',
-        description: 'Division',
-        example: '20 ÷ 5 = 4'
+        name: 'Investment Recommendations',
+        description: 'AI-powered investment suggestions'
       }
     ];
 
     return {
-      contents: [{
-        uri,
-        mimeType: 'application/json',
-        text: JSON.stringify({ operations }, null, 2)
-      }]
+      contents: [
+        {
+          uri,
+          mimeType: 'application/json',
+          text: JSON.stringify({ categories }, null, 2)
+        }
+      ]
     };
   }
 }
-

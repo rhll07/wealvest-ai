@@ -1,12 +1,15 @@
 import { Module } from '@nitrostack/core';
-import { CalculatorTools } from './calculator.tools.js';
-import { CalculatorResources } from './calculator.resources.js';
-import { CalculatorPrompts } from './calculator.prompts.js';
+import { PortfolioTools } from './portfolio.tools.js';
+import { PortfolioResources } from './portfolio.resources.js';
+import { PortfolioPrompts } from './portfolio.prompts.js';
 
 @Module({
-  name: 'calculator',
-  description: 'Basic arithmetic calculator',
-  controllers: [CalculatorTools, CalculatorResources, CalculatorPrompts]
+  name: 'portfolio',
+  description: 'AI Portfolio Analyzer',
+  controllers: [
+    PortfolioTools,
+    PortfolioResources,
+    PortfolioPrompts
+  ]
 })
-export class CalculatorModule {}
-
+export class PortfolioModule {}

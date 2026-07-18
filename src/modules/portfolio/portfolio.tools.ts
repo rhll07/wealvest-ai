@@ -2,12 +2,12 @@ import { ToolDecorator as Tool, Widget, ExecutionContext, z } from '@nitrostack/
 import * as fs from 'fs';
 import * as path from 'path';
 
-export class CalculatorTools {
+export class PortfolioTools {
   @Tool({
-    name: 'calculate',
-    description: 'Perform basic arithmetic calculations',
+    name: 'analyze_portfolio',
+    description: 'Analyze an investment portfolio',
     inputSchema: z.object({
-      operation: z.enum(['add', 'subtract', 'multiply', 'divide']).describe('The operation to perform'),
+      operation: z.enum(['add', 'subtract', 'multiply', 'divide']).describe('Temporary placeholder'),
       a: z.number().describe('First number'),
       b: z.number().describe('Second number')
     }),
@@ -26,9 +26,9 @@ export class CalculatorTools {
       }
     }
   })
-  @Widget('calculator-result')
-  async calculate(input: any, ctx: ExecutionContext) {
-    ctx.logger.info('Performing calculation', {
+  @Widget('portfolio-result')
+  async analyzePortfolio(input: any, ctx: ExecutionContext) {
+    ctx.logger.info('Analyzing portfolio', {
       operation: input.operation,
       a: input.a,
       b: input.b
@@ -71,96 +71,50 @@ export class CalculatorTools {
   }
 
   @Tool({
-    name: 'convert_temperature',
-    description: 'Convert temperature units based on file content or direct input. Supports Celsius (C) and Fahrenheit (F).',
+    name: 'portfolio_file_upload',
+    description: 'Temporary placeholder tool for portfolio file processing.',
     inputSchema: z.object({
       file_name: z.string().describe('Name of the uploaded file'),
       file_type: z.string().describe('MIME type of the uploaded file'),
-      file_content: z.string().describe('Base64 encoded file content. Will be injected by system.'),
-      value: z.number().optional().describe('Temperature value to convert'),
-      from_unit: z.enum(['C', 'F']).optional().describe('Unit to convert from (C or F)'),
-      to_unit: z.enum(['C', 'F']).optional().describe('Unit to convert to (C or F)')
+      file_content: z.string().describe('Base64 encoded file content.'),
+      value: z.number().optional(),
+      from_unit: z.enum(['C', 'F']).optional(),
+      to_unit: z.enum(['C', 'F']).optional()
     })
   })
-  async convertTemperature(input: any, ctx: ExecutionContext) {
-    ctx.logger.info('Processing temperature file', {
+  async portfolioFileUpload(input: any, ctx: ExecutionContext) {
+    ctx.logger.info('Processing uploaded portfolio file', {
       name: input.file_name,
-      type: input.file_type,
-      value: input.value,
-      from: input.from_unit,
-      to: input.to_unit
+      type: input.file_type
     });
 
-    // Save file to uploads directory
     const uploadsDir = path.join(process.cwd(), 'uploads');
+
     if (!fs.existsSync(uploadsDir)) {
       fs.mkdirSync(uploadsDir, { recursive: true });
     }
 
     const filePath = path.join(uploadsDir, input.file_name);
 
-    // Decode base64
     if (input.file_content) {
       try {
         const matches = input.file_content.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
-        let buffer;
-
-        if (matches && matches.length === 3) {
-          buffer = Buffer.from(matches[2], 'base64');
-        } else {
-          buffer = Buffer.from(input.file_content, 'base64');
-        }
+        const buffer = matches && matches.length === 3
+          ? Buffer.from(matches[2], 'base64')
+          : Buffer.from(input.file_content, 'base64');
 
         fs.writeFileSync(filePath, buffer);
-        ctx.logger.info(`Saved file to ${filePath}`);
       } catch (e) {
-        ctx.logger.error('Failed to save file', { error: e instanceof Error ? e.message : String(e) });
+        ctx.logger.error('Failed to save file', {
+          error: e instanceof Error ? e.message : String(e)
+        });
       }
-    }
-
-    const fileStats = {
-      name: input.file_name,
-      type: input.file_type,
-      saved_path: filePath,
-      status: 'saved'
-    };
-
-    let result: number | null = null;
-    let message = `Successfully processed and saved file ${input.file_name}`;
-
-    // Perform conversion logic
-    if (input.value !== undefined && input.from_unit && input.to_unit) {
-      try {
-        message += `. Converting ${input.value}°${input.from_unit} to ${input.to_unit}`;
-
-        if (input.from_unit === input.to_unit) {
-          result = input.value;
-        } else if (input.from_unit === 'C' && input.to_unit === 'F') {
-          result = (input.value * 9 / 5) + 32;
-        } else if (input.from_unit === 'F' && input.to_unit === 'C') {
-          result = (input.value - 32) * 5 / 9;
-        } else {
-          throw new Error('Unsupported unit conversion');
-        }
-
-        // Round to 2 decimal places
-        if (result !== null) {
-          result = Math.round(result * 100) / 100;
-          message += `. Result: ${result}°${input.to_unit}`;
-        }
-      } catch (e: any) {
-        message += `. Conversion failed: ${e.message}`;
-      }
-    } else {
-      message += `. No valid conversion parameters detected from manual input or file extraction.`;
     }
 
     return {
       status: 'success',
-      message,
-      file_info: fileStats,
-      conversion_result: result !== null ? { value: result, unit: input.to_unit } : null,
-      original_value: input.value !== undefined ? { value: input.value, unit: input.from_unit } : null
+      file: input.file_name,
+      saved_path: filePath
     };
   }
 }

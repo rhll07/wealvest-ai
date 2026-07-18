@@ -1,12 +1,12 @@
 import { Module } from '@nitrostack/core';
-import { CalculatorTools } from './calculator.tools.js';
-import { CalculatorResources } from './calculator.resources.js';
-import { CalculatorPrompts } from './calculator.prompts.js';
+import { ReportGeneratorTools } from './report-generator.tools.js';
+import { ReportGeneratorResources } from './report-generator.resources.js';
+import { ReportGeneratorPrompts } from './report-generator.prompts.js';
 
 @Module({
-  name: 'calculator',
-  description: 'Basic arithmetic calculator',
-  controllers: [CalculatorTools, CalculatorResources, CalculatorPrompts]
+  name: 'report-generator',
+  description: 'Report Generator',
+  controllers: [ReportGeneratorTools, ReportGeneratorResources, ReportGeneratorPrompts]
 })
-export class CalculatorModule {}
+export class ReportGeneratorModule {}
 

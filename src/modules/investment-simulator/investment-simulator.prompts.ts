@@ -1,6 +1,6 @@
 import { PromptDecorator as Prompt, ExecutionContext } from '@nitrostack/core';
 
-export class CalculatorPrompts {
+export class InvestmentSimulatorPrompts {
   @Prompt({
     name: 'calculator_help',
     description: 'Get help with calculator operations',

@@ -1,12 +1,15 @@
 import { Module } from '@nitrostack/core';
-import { CalculatorTools } from './calculator.tools.js';
-import { CalculatorResources } from './calculator.resources.js';
-import { CalculatorPrompts } from './calculator.prompts.js';
+import { RiskTools } from './risk.tools.js';
+import { RiskResources } from './risk.resources.js';
+import { RiskPrompts } from './risk.prompts.js';
 
 @Module({
-  name: 'calculator',
-  description: 'Basic arithmetic calculator',
-  controllers: [CalculatorTools, CalculatorResources, CalculatorPrompts]
+  name: 'risk',
+  description: 'AI Risk Analyzer',
+  controllers: [
+    RiskTools,
+    RiskResources,
+    RiskPrompts
+  ]
 })
-export class CalculatorModule {}
-
+export class RiskModule {}

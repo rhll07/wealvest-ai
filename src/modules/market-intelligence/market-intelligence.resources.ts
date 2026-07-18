@@ -1,9 +1,9 @@
 import { ResourceDecorator as Resource, Widget, ExecutionContext } from '@nitrostack/core';
 
-export class CalculatorResources {
+export class MarketIntelligenceResources {
   @Resource({
     uri: 'calculator://operations',
-    name: 'Calculator Operations',
+    name: 'Portfolio Resources',
     description: 'List of available calculator operations',
     mimeType: 'application/json',
     examples: {

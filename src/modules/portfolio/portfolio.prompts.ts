@@ -1,73 +1,52 @@
 import { PromptDecorator as Prompt, ExecutionContext } from '@nitrostack/core';
 
-export class CalculatorPrompts {
+export class PortfolioPrompts {
   @Prompt({
-    name: 'calculator_help',
-    description: 'Get help with calculator operations',
+    name: 'portfolio_analysis_help',
+    description: 'Get help with portfolio analysis',
     arguments: [
       {
-        name: 'operation',
-        description: 'The operation to get help with (optional)',
+        name: 'query',
+        description: 'Portfolio-related question (optional)',
         required: false
       }
     ]
   })
   async getHelp(args: any, ctx: ExecutionContext) {
-    ctx.logger.info('Generating calculator help prompt');
+    ctx.logger.info('Generating portfolio analysis help prompt');
 
-    const operation = args.operation;
+    const query = args.query;
 
-    if (operation) {
-      // Help for specific operation
-      const helpText = this.getOperationHelp(operation);
+    if (query) {
       return [
         {
           role: 'user' as const,
-          content: `How do I use the ${operation} operation in the calculator?`
+          content: query
         },
         {
           role: 'assistant' as const,
-          content: helpText
+          content: `WealVest AI can help analyze your investment portfolio, assess risk, recommend asset allocation, estimate returns, and provide personalized investment suggestions based on your financial profile.`
         }
       ];
     }
 
-    // General help
     return [
       {
         role: 'user' as const,
-        content: 'How do I use the calculator?'
+        content: 'What can WealVest AI do?'
       },
       {
         role: 'assistant' as const,
-        content: `The calculator supports four basic operations:
+        content: `WealVest AI currently supports:
 
-1. **Addition** - Add two numbers together
-   Example: calculate(operation="add", a=5, b=3) = 8
+• Portfolio Analysis
+• Risk Assessment
+• Asset Allocation Suggestions
+• Investment Planning
+• Personalized Financial Insights
 
-2. **Subtraction** - Subtract one number from another
-   Example: calculate(operation="subtract", a=10, b=4) = 6
-
-3. **Multiplication** - Multiply two numbers
-   Example: calculate(operation="multiply", a=6, b=7) = 42
-
-4. **Division** - Divide one number by another
-   Example: calculate(operation="divide", a=20, b=5) = 4
-
-Just call the 'calculate' tool with the operation and two numbers!`
+This is currently a scaffold module. Advanced AI-powered recommendations will be added in the next implementation phase.`
       }
     ];
   }
-
-  private getOperationHelp(operation: string): string {
-    const helps: Record<string, string> = {
-      add: 'Use addition to sum two numbers. Call calculate(operation="add", a=5, b=3) to get 8.',
-      subtract: 'Use subtraction to find the difference. Call calculate(operation="subtract", a=10, b=4) to get 6.',
-      multiply: 'Use multiplication to find the product. Call calculate(operation="multiply", a=6, b=7) to get 42.',
-      divide: 'Use division to find the quotient. Call calculate(operation="divide", a=20, b=5) to get 4. Note: Cannot divide by zero!'
-    };
-
-    return helps[operation] || 'Unknown operation. Available operations: add, subtract, multiply, divide.';
-  }
 }
-
