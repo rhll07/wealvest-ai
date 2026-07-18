@@ -223,7 +223,7 @@ Backend integration between the website and the MCP server is planned for a futu
 Clone the repository:
 
 ```bash
-git clone https://github.com/<username>/wealvest-ai.git
+git clone https://github.com/rhll07/wealvest-ai.git
 ```
 
 Move into the project:
