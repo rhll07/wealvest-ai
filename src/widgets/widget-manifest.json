@@ -2,47 +2,70 @@
   "version": "1.0.0",
   "widgets": [
     {
-      "uri": "/calculator-result",
-      "name": "Calculator Result",
-      "description": "Displays the result of a calculation with operation details",
+      "uri": "/portfolio-result",
+      "name": "Portfolio Analysis",
+      "description": "Displays detailed portfolio analysis, allocation, and financial insights.",
       "examples": [
         {
-          "name": "Addition Example",
-          "description": "Shows the result of adding 5 + 3",
+          "name": "High Risk Portfolio",
+          "description": "Analysis for a 30-year old with high risk tolerance.",
           "data": {
-            "operation": "add",
-            "a": 5,
-            "b": 3,
-            "result": 8,
-            "expression": "5 + 3 = 8"
-          }
-        },
-        {
-          "name": "Multiplication Example",
-          "description": "Shows the result of multiplying 6 × 7",
-          "data": {
-            "operation": "multiply",
-            "a": 6,
-            "b": 7,
-            "result": 42,
-            "expression": "6 × 7 = 42"
-          }
-        },
-        {
-          "name": "Division Example",
-          "description": "Shows the result of dividing 20 ÷ 4",
-          "data": {
-            "operation": "divide",
-            "a": 20,
-            "b": 4,
-            "result": 5,
-            "expression": "20 ÷ 4 = 5"
+            "portfolioScore": 85,
+            "riskScore": 70,
+            "recommendedAllocation": {
+              "equity": 75,
+              "debt": 20,
+              "gold": 5
+            },
+            "expectedCAGR": "12.5",
+            "projectedCorpus": 45000000,
+            "emergencyFundAnalysis": {
+              "status": "Adequate",
+              "current": 1000000,
+              "required": 600000
+            },
+            "recommendations": [
+              "Maintain an asset allocation of 75% Equity, 20% Debt, and 5% Gold.",
+              "Given your long horizon, you can afford higher volatility for better returns."
+            ],
+            "warnings": [],
+            "insights": "Aggressive growth strategy recommended."
           }
         }
       ],
-      "tags": ["calculator", "math", "result"]
+      "tags": ["portfolio", "finance", "analysis"]
+    },
+    {
+      "uri": "/investment-simulator-result",
+      "name": "Investment Simulator",
+      "description": "Displays investment growth projections and comparison scenarios.",
+      "examples": [
+        {
+          "name": "Retirement SIP",
+          "description": "10-year SIP simulation.",
+          "data": {
+            "finalCorpus": 2623456,
+            "totalInvested": 1300000,
+            "totalReturns": 1323456,
+            "yearlyProjections": [
+              { "year": 1, "balance": 234000, "invested": 220000, "returns": 14000 }
+            ],
+            "comparison": {
+              "at8Percent": 2100000,
+              "at15Percent": 3200000,
+              "inflationAdjusted": 1850000
+            },
+            "parameters": {
+              "expectedReturn": 12,
+              "duration": 10,
+              "monthlySIP": 10000,
+              "initialInvestment": 100000
+            }
+          }
+        }
+      ],
+      "tags": ["simulator", "growth", "projection"]
     }
   ],
-  "generatedAt": "2025-01-01T00:00:00.000Z"
+  "generatedAt": "2026-07-18T00:00:00.000Z"
 }
-

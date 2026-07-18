@@ -1,166 +1,58 @@
 import { ToolDecorator as Tool, Widget, ExecutionContext, z } from '@nitrostack/core';
-import * as fs from 'fs';
-import * as path from 'path';
 
 export class RiskTools {
   @Tool({
-    name: 'calculate',
-    description: 'Perform basic arithmetic calculations',
+    name: 'assess_risk',
+    description: 'Evaluate the risk profile of an investment portfolio based on asset allocation and concentration.',
     inputSchema: z.object({
-      operation: z.enum(['add', 'subtract', 'multiply', 'divide']).describe('The operation to perform'),
-      a: z.number().describe('First number'),
-      b: z.number().describe('Second number')
+      holdings: z.array(z.object({
+        asset: z.string().describe('Asset name or symbol'),
+        category: z.enum(['Equity', 'Debt', 'Gold', 'Cash']).describe('Asset category'),
+        value: z.number().positive().describe('Current value of the holding')
+      })).describe('List of portfolio holdings')
     }),
-    examples: {
-      request: {
-        operation: 'add',
-        a: 5,
-        b: 3
-      },
-      response: {
-        operation: 'add',
-        a: 5,
-        b: 3,
-        result: 8,
-        expression: '5 + 3 = 8'
-      }
-    }
   })
-  @Widget('calculator-result')
-  async calculate(input: any, ctx: ExecutionContext) {
-    ctx.logger.info('Performing calculation', {
-      operation: input.operation,
-      a: input.a,
-      b: input.b
+  @Widget('risk-result')
+  async assessRisk(input: any, ctx: ExecutionContext) {
+    ctx.logger.info('Assessing risk', input);
+
+    const { holdings } = input;
+    const totalValue = holdings.reduce((sum: number, h: any) => sum + h.value, 0);
+    
+    const allocation = {
+      Equity: 0,
+      Debt: 0,
+      Gold: 0,
+      Cash: 0
+    };
+
+    holdings.forEach((h: any) => {
+      allocation[h.category as keyof typeof allocation] += (h.value / totalValue) * 100;
     });
 
-    let result: number;
-    let symbol: string;
+    let riskScore = allocation.Equity; // Primary risk driver
+    let riskLevel = 'Moderate';
 
-    switch (input.operation) {
-      case 'add':
-        result = input.a + input.b;
-        symbol = '+';
-        break;
-      case 'subtract':
-        result = input.a - input.b;
-        symbol = '-';
-        break;
-      case 'multiply':
-        result = input.a * input.b;
-        symbol = '×';
-        break;
-      case 'divide':
-        if (input.b === 0) {
-          throw new Error('Cannot divide by zero');
-        }
-        result = input.a / input.b;
-        symbol = '÷';
-        break;
-      default:
-        throw new Error('Invalid operation');
+    if (riskScore > 75) riskLevel = 'High';
+    else if (riskScore < 30) riskLevel = 'Low';
+
+    const alerts = [];
+    if (allocation.Equity > 85) alerts.push('Very high equity exposure may lead to significant volatility.');
+    if (allocation.Debt < 10 && riskScore > 50) alerts.push('Low debt cushion; consider increasing fixed income allocation.');
+    
+    // Concentration check
+    const topHolding = [...holdings].sort((a, b) => b.value - a.value)[0];
+    if (topHolding && (topHolding.value / totalValue) > 0.2) {
+      alerts.push(`High concentration in ${topHolding.asset} (${Math.round((topHolding.value / totalValue) * 100)}%). Diversify to reduce idiosyncratic risk.`);
     }
 
     return {
-      operation: input.operation,
-      a: input.a,
-      b: input.b,
-      result,
-      expression: `${input.a} ${symbol} ${input.b} = ${result}`
-    };
-  }
-
-  @Tool({
-    name: 'convert_temperature',
-    description: 'Convert temperature units based on file content or direct input. Supports Celsius (C) and Fahrenheit (F).',
-    inputSchema: z.object({
-      file_name: z.string().describe('Name of the uploaded file'),
-      file_type: z.string().describe('MIME type of the uploaded file'),
-      file_content: z.string().describe('Base64 encoded file content. Will be injected by system.'),
-      value: z.number().optional().describe('Temperature value to convert'),
-      from_unit: z.enum(['C', 'F']).optional().describe('Unit to convert from (C or F)'),
-      to_unit: z.enum(['C', 'F']).optional().describe('Unit to convert to (C or F)')
-    })
-  })
-  async convertTemperature(input: any, ctx: ExecutionContext) {
-    ctx.logger.info('Processing temperature file', {
-      name: input.file_name,
-      type: input.file_type,
-      value: input.value,
-      from: input.from_unit,
-      to: input.to_unit
-    });
-
-    // Save file to uploads directory
-    const uploadsDir = path.join(process.cwd(), 'uploads');
-    if (!fs.existsSync(uploadsDir)) {
-      fs.mkdirSync(uploadsDir, { recursive: true });
-    }
-
-    const filePath = path.join(uploadsDir, input.file_name);
-
-    // Decode base64
-    if (input.file_content) {
-      try {
-        const matches = input.file_content.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
-        let buffer;
-
-        if (matches && matches.length === 3) {
-          buffer = Buffer.from(matches[2], 'base64');
-        } else {
-          buffer = Buffer.from(input.file_content, 'base64');
-        }
-
-        fs.writeFileSync(filePath, buffer);
-        ctx.logger.info(`Saved file to ${filePath}`);
-      } catch (e) {
-        ctx.logger.error('Failed to save file', { error: e instanceof Error ? e.message : String(e) });
-      }
-    }
-
-    const fileStats = {
-      name: input.file_name,
-      type: input.file_type,
-      saved_path: filePath,
-      status: 'saved'
-    };
-
-    let result: number | null = null;
-    let message = `Successfully processed and saved file ${input.file_name}`;
-
-    // Perform conversion logic
-    if (input.value !== undefined && input.from_unit && input.to_unit) {
-      try {
-        message += `. Converting ${input.value}°${input.from_unit} to ${input.to_unit}`;
-
-        if (input.from_unit === input.to_unit) {
-          result = input.value;
-        } else if (input.from_unit === 'C' && input.to_unit === 'F') {
-          result = (input.value * 9 / 5) + 32;
-        } else if (input.from_unit === 'F' && input.to_unit === 'C') {
-          result = (input.value - 32) * 5 / 9;
-        } else {
-          throw new Error('Unsupported unit conversion');
-        }
-
-        // Round to 2 decimal places
-        if (result !== null) {
-          result = Math.round(result * 100) / 100;
-          message += `. Result: ${result}°${input.to_unit}`;
-        }
-      } catch (e: any) {
-        message += `. Conversion failed: ${e.message}`;
-      }
-    } else {
-      message += `. No valid conversion parameters detected from manual input or file extraction.`;
-    }
-
-    return {
-      status: 'success',
-      message,
-      file_info: fileStats,
-      conversion_result: result !== null ? { value: result, unit: input.to_unit } : null,
-      original_value: input.value !== undefined ? { value: input.value, unit: input.from_unit } : null
+      riskScore: Math.round(riskScore),
+      riskLevel,
+      allocation: Object.fromEntries(Object.entries(allocation).map(([k, v]) => [k, Math.round(v)])),
+      alerts,
+      summary: `Your portfolio has a ${riskLevel.toLowerCase()} risk profile with ${Math.round(allocation.Equity)}% equity exposure.`
     };
   }
 }
+

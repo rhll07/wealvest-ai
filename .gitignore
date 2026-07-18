@@ -99,3 +99,4 @@ uploads/
 src/widgets/.next/
 src/widgets/out/
 src/widgets/node_modules/
+.nitrostudio/
